@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<script type="text/javascript" src="../dependencies/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="../dependencies/jquery.bind-first-0.2.3.min.js"></script>
+		<script type="text/javascript" src="../src/Jvalidator.js"></script>
+		<script type="text/javascript" src="./example.js"></script>
+
+		<!-- Bootstrap -->
+		<script type="text/javascript" src="./dependencies/bootstrap/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="./dependencies/bootstrap/css/bootstrap.min.css">
+
+		<title>Jvalidator Example</title>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<form id="form" data-validate>
+			  <div class="form-group">
+			    <label for="customInput">Enter 'let me pass brow' (will fire on 'keyup'):</label>
+			    <input type="text" class="form-control" id="customInput" required data-validate-using="myCustonValidationFunc" />
+			  </div>
+			  <div class="form-group">
+			    <label for="custom">This will be disabled if you've failed above (will fire on 'blur'):</label>
+			    <input type="text" class="form-control" id="inputToDisable" required />
+			  </div>
+			  <div class="form-group">
+			    <label for="email">Email address (will fire on 'input'):</label>
+			    <input type="email" id="email" class="form-control"/>
+			  </div>
+			  <div class="form-group">
+			    <label for="pwd">Password (will fire on 'input'):</label>
+			    <input type="password" class="form-control" id="pwd" required />
+			  </div>
+			  <div class="form-group">
+			    <label for="range">Number (5, 10) (will fire on 'input'):</label>
+			    <input type="number" class="form-control" id="range" min="5" max="20"/>
+			  </div>
+			  <div class="checkbox">
+			    <label><input type="checkbox" id="checkbox" required /> Remember me (will fire on 'change')</label>
+			  </div>
+			  <button type="submit" id="button" class="btn btn-default">Submit</button>
+			</form>
+		</div>
+	</body>
+</html>
