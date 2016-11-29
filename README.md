@@ -3,7 +3,7 @@
 We just need to add 'data-validate' attribute to our <form> tag.
 
 We can use configuration, just like:
-```
+```javascript
 var config = {
 
     // our custom message when 'required' validation fails
