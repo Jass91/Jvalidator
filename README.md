@@ -82,7 +82,7 @@ var config = {
   // or calling:
   //jvalidator.validateUsingDefaultConfig();
   ```
-In html, if you wanto to use custom validation, just do it:
+In html, if you want to use custom validation, just do it:
 ```html
 <input type="text" id="customInput" data-validate-using="myCustonValidationFunc" />
 ```
