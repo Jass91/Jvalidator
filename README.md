@@ -1,6 +1,23 @@
 # A Simple Javascript Plugin To Validate HTML Form
 
-We just need to add 'data-validate' attribute to our 'form' tag.
+We just need to add 'data-validate' attribute to our 'form' tag, or pass an array of 'formId' to our jvalidator.
+
+We can call our validation:
+ ```javascript
+ // *** Initialize our validator and makes de magic :) *** //
+
+  // You can set validation to a list of forms
+  //jvalidator.validateUsingThisConfig(config, ["#form"]);
+
+  // You can set validation to forms that apply 'data-validate' attribute
+  jvalidator.validateUsingThisConfig(config);
+
+  // You can use default configuration calling:
+  //jvalidator.validateUsingDefaultConfig(["#form"]);
+
+  // or calling:
+  //jvalidator.validateUsingDefaultConfig();
+  ```
 
 We can use configuration, just like:
 ```javascript
@@ -65,22 +82,6 @@ var config = {
     ]
   
   };
-  ```
-  After, We can call our validation:
- ```javascript
- // *** Initialize our validator and makes de magic :) *** //
-
-  // You can set validation to a list of forms
-  //jvalidator.validateUsingThisConfig(config, ["#form"]);
-
-  // You can set validation to forms that apply 'data-validate' attribute
-  jvalidator.validateUsingThisConfig(config);
-
-  // You can use default configuration calling:
-  //jvalidator.validateUsingDefaultConfig(["#form"]);
-
-  // or calling:
-  //jvalidator.validateUsingDefaultConfig();
   ```
 In html, if you want to use custom validation, just do it:
 ```html
