@@ -73,19 +73,6 @@ var jvalidator = (function () {
       }
     }
 
-    var createAdjacentElementTo = function(element){
-
-      var $divToErrorMessage = $("<div hidden data-error-message></div>");
-      if(self.config.messageErrorClass){
-        $divToErrorMessage.addClass(config.messageErrorClass);
-      }else{
-        $divToErrorMessage.css({"color": "red"});
-      }
-
-      $(element).after($divToErrorMessage);
-
-    };
-
     var showErrorMessageNear = function(element, msg){
       var $element = $(element).next("div[data-error-message]");
       $element.html(msg);
@@ -112,12 +99,64 @@ var jvalidator = (function () {
       clearErrorMessageNear(element);
     };
 
+    var createAdjacentElementTo = function(element){
+
+      var $divToErrorMessage = $("<div hidden data-error-message></div>");
+      if(self.config.messageErrorClass){
+        $divToErrorMessage.addClass(config.messageErrorClass);
+      }else{
+        $divToErrorMessage.css({"color": "red"});
+      }
+
+      $(element).after($divToErrorMessage);
+
+    };
+
+    var matchValidate = function(attrValue, element){
+      var fieldToMatch = attrValue.substring(attrValue.indexOf("(")+ 1, attrValue.indexOf(")"));
+
+      var fieldToMatchValue = $(element).val();
+      var fieldToTestValue = $(fieldToMatch).val();
+
+      // if there is no handler in our config object
+      if(fieldToMatchValue != fieldToTestValue){
+        return self.config.fieldsDoesNotMatchMessage;
+      }else{
+        return "valid";
+      }
+
+    };
+
+    var useValidate = function(attrValue, element){
+
+      var customFuncName = attrValue.substring(attrValue.indexOf("(")+ 1, attrValue.indexOf(")"));
+
+      // get on config object the rule applied to our input by 'data-validate-using' attribute
+      var validationRule = self.config.customValidations.find(function(rule){
+        return rule.key == customFuncName;
+      });
+
+      // if there is no handler in our config object
+      if(!validationRule){
+        throw "key '" + customFuncName + "' passed to attribute 'data-validate-use' not found on config object";
+      }else if(!$.isFunction(validationRule.validate)){
+        throw 'you must pass a function as value';
+      }
+
+      // call custom function
+      if(validationRule.validate(element)){
+        return "valid";
+      }else{
+        return validationRule.customInvalidMessage;
+      }
+
+    };
+
     var validateField = function(element){
 
       var msg = "";
       var hasError = false;
-      var customValidationValue = $(element).attr("data-validate-using");
-      var extendedValidationValue = $(element).attr("data-extended-validate");
+      var extendedValidationValue = $(element).attr("data-extended-validation");
 
       // check for html5 native validations
       if(element.checkValidity() ==  false){
@@ -156,32 +195,21 @@ var jvalidator = (function () {
 
       // extra validations provided by Jvalidator
       else if(extendedValidationValue){
-        // check using regex if extendedValidationValue matches with 'match(#field1, #field2)'
-        // if yes, call our function;
-      }
-      // custom validation provided by the user
-      else if(customValidationValue){
-
-        // get on config object the rule applied to our input by 'data-validate-using' attribute
-        var validationRule = self.config.customValidations.find(function(rule){
-          return rule.key == customValidationValue;
-        });
-
-        // if there is no handler in our config object
-        if(!validationRule){
-          throw "key '" + customValidationValue + "' passed to attribute 'data-validate-using' not found on config object";
-        }else if(!$.isFunction(validationRule.validate)){
-          throw 'you must pass a function as value';
+        if(extendedValidationValue.startsWith("match(")){
+          var status = matchValidate(extendedValidationValue, element);
+          if(status != "valid"){
+            hasError = true;
+            msg = status;
+          }
+        }else if(extendedValidationValue.startsWith('use(')){
+          var status = useValidate(extendedValidationValue, element);
+          if(status != "valid"){
+            hasError = true;
+            msg = status;
+          }
+        }else{
+          throw extendedValidationValue + " not supported on 'data-extended-validation' attribute";
         }
-
-        // call custom function
-        var isValid = validationRule.validate(element);
-
-        if(!isValid){
-          hasError = true;
-          msg = validationRule.customInvalidMessage;
-        }
-
       }
 
       return {
@@ -394,6 +422,7 @@ var jvalidator = (function () {
         tooShortMessage: config.tooLongMessage,
         typeMismatchMessage: config.typeMismatchMessage,
         valueMissingMessage: config.valueMissingMessage,
+        fieldsDoesNotMatchMessage: config.fieldsDoesNotMatchMessage,
         validateOn: config.validateOn,
         customValidations: config.customValidations,
         disableRules: config.disableRules,

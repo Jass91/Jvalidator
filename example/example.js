@@ -27,7 +27,8 @@ var getConfigurationToJvalidator = function(){
     //stepMismatchMessage: message,
     //tooLongMessage: message,
     //tooShortMessage: message,
-    //typeMismatchMessage: message
+    //typeMismatchMessage: message,
+    fieldsDoesNotMatchMessage: "Os campos não conferem",
 
     /*
     inputErrorClass: {
@@ -57,7 +58,7 @@ var getConfigurationToJvalidator = function(){
         fields: ["#inputToDisable"]
       }
     ],
-    
+
     // specify some custom validations
     customValidations: [
       {
@@ -75,7 +76,7 @@ var getConfigurationToJvalidator = function(){
        //callFunction: value (this not exist yet =/ )
       }
     ]
-  
+
   };
 
   return config;
@@ -83,7 +84,7 @@ var getConfigurationToJvalidator = function(){
 
 // start our plugin
 $(document).ready(function() {
-  
+
   // assign evento to submit
   assignSubmitEvent();
 
@@ -100,5 +101,5 @@ $(document).ready(function() {
 
   // or calling:
   //jvalidator.validateUsingDefaultConfig();
- 
+
 });

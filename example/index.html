@@ -19,19 +19,29 @@
 			<form id="form" data-validate>
 			  <div class="form-group">
 			    <label for="customInput">Enter 'let me pass brow' (will fire on 'keyup'):</label>
-			    <input type="text" class="form-control" id="customInput" required data-validate-using="myCustonValidationFunc" />
+			    <input type="text" class="form-control" id="customInput"
+					required
+					data-extended-validation="use(myCustonValidationFunc)" />
 			  </div>
 			  <div class="form-group">
 			    <label for="custom">This will be disabled if you've failed above (will fire on 'blur'):</label>
-			    <input type="text" class="form-control" id="inputToDisable" required />
+			    <input type="text" class="form-control" id="inputToDisable" />
 			  </div>
 			  <div class="form-group">
 			    <label for="email">Email address (will fire on 'input'):</label>
-			    <input type="email" id="email" class="form-control"/>
+			    <input type="email" id="email" class="form-control" required/>
 			  </div>
 			  <div class="form-group">
 			    <label for="pwd">Password (will fire on 'input'):</label>
 			    <input type="password" class="form-control" id="pwd" required />
+			  </div>
+				<div class="form-group">
+			    <label for="confirmPwd">Password (will fire on 'input'):</label>
+			    <input
+						type="password" class="form-control" id="confirmPwd"
+						data-extended-validation="match(#pwd)"
+						required
+					/>
 			  </div>
 			  <div class="form-group">
 			    <label for="range">Number (5, 10) (will fire on 'input'):</label>
